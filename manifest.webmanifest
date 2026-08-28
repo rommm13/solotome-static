@@ -1,7 +1,10 @@
 {
+  "id": "./",
   "name": "SoloTome",
   "short_name": "SoloTome",
   "description": "Личный каталог книг в твоём Google-аккаунте",
+  "start_url": "./?home=1",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#050506",
   "theme_color": "#050506",
