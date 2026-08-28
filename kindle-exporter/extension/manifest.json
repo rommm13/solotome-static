@@ -1,12 +1,72 @@
 {
   "manifest_version": 3,
-  "name": "SoloTome Kindle Exporter",
-  "version": "0.1.1",
-  "description": "Локально выгружает Send to Kindle / Personal Documents из Amazon Content Library для SoloTome.",
-  "permissions": ["activeTab", "storage"],
-  "action": {"default_popup": "popup.html", "default_title": "SoloTome Kindle Exporter"},
+  "name": "SoloTome Kindle Connector",
+  "version": "0.2.0",
+  "description": "Локально синхронизирует Send to Kindle / Personal Documents с SoloTome через уже авторизованную сессию Amazon.",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SoloTome Kindle Connector"
+  },
   "content_scripts": [
-    {"matches": ["https://www.amazon.com/hz/mycd/*","https://www.amazon.co.uk/hz/mycd/*","https://www.amazon.de/hz/mycd/*","https://www.amazon.fr/hz/mycd/*","https://www.amazon.es/hz/mycd/*","https://www.amazon.it/hz/mycd/*","https://www.amazon.ca/hz/mycd/*","https://www.amazon.com.au/hz/mycd/*","https://www.amazon.co.jp/hz/mycd/*","https://www.amazon.in/hz/mycd/*","https://www.amazon.com.br/hz/mycd/*","https://www.amazon.com.mx/hz/mycd/*","https://www.amazon.nl/hz/mycd/*"],"js":["page-bridge.js"],"run_at":"document_start","world":"MAIN"},
-    {"matches": ["https://www.amazon.com/hz/mycd/*","https://www.amazon.co.uk/hz/mycd/*","https://www.amazon.de/hz/mycd/*","https://www.amazon.fr/hz/mycd/*","https://www.amazon.es/hz/mycd/*","https://www.amazon.it/hz/mycd/*","https://www.amazon.ca/hz/mycd/*","https://www.amazon.com.au/hz/mycd/*","https://www.amazon.co.jp/hz/mycd/*","https://www.amazon.in/hz/mycd/*","https://www.amazon.com.br/hz/mycd/*","https://www.amazon.com.mx/hz/mycd/*","https://www.amazon.nl/hz/mycd/*"],"js":["content-bridge.js"],"run_at":"document_start","world":"ISOLATED"}
+    {
+      "matches": [
+        "https://www.amazon.com/hz/mycd/*",
+        "https://www.amazon.co.uk/hz/mycd/*",
+        "https://www.amazon.de/hz/mycd/*",
+        "https://www.amazon.fr/hz/mycd/*",
+        "https://www.amazon.es/hz/mycd/*",
+        "https://www.amazon.it/hz/mycd/*",
+        "https://www.amazon.ca/hz/mycd/*",
+        "https://www.amazon.com.au/hz/mycd/*",
+        "https://www.amazon.co.jp/hz/mycd/*",
+        "https://www.amazon.in/hz/mycd/*",
+        "https://www.amazon.com.br/hz/mycd/*",
+        "https://www.amazon.com.mx/hz/mycd/*",
+        "https://www.amazon.nl/hz/mycd/*"
+      ],
+      "js": [
+        "page-bridge.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://www.amazon.com/hz/mycd/*",
+        "https://www.amazon.co.uk/hz/mycd/*",
+        "https://www.amazon.de/hz/mycd/*",
+        "https://www.amazon.fr/hz/mycd/*",
+        "https://www.amazon.es/hz/mycd/*",
+        "https://www.amazon.it/hz/mycd/*",
+        "https://www.amazon.ca/hz/mycd/*",
+        "https://www.amazon.com.au/hz/mycd/*",
+        "https://www.amazon.co.jp/hz/mycd/*",
+        "https://www.amazon.in/hz/mycd/*",
+        "https://www.amazon.com.br/hz/mycd/*",
+        "https://www.amazon.com.mx/hz/mycd/*",
+        "https://www.amazon.nl/hz/mycd/*"
+      ],
+      "js": [
+        "content-bridge.js"
+      ],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    },
+    {
+      "matches": [
+        "https://script.google.com/*",
+        "https://*.googleusercontent.com/*"
+      ],
+      "js": [
+        "app-bridge.js"
+      ],
+      "run_at": "document_start",
+      "world": "ISOLATED",
+      "all_frames": true
+    }
   ]
 }
