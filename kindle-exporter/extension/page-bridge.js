@@ -41,7 +41,7 @@
   async function requestMeta(input,init){
     let url='',method='GET',headers={},body='';
     if(typeof input==='string')url=input;else if(input){url=input.url||'';method=input.method||method;headers=headersObject(input.headers);try{body=await input.clone().text()}catch{}}
-    if(init){method=init.method||method;headers={...headers,...headersObject(init.headers)};if(typeof init.body==='string')body=init.body;}
+    if(init){method=init.method||method;headers={...headers,...headersObject(init.headers)};if(typeof init.body==='string')body=init.body;else if(init.body instanceof URLSearchParams)body=init.body.toString();}
     return{url,method:String(method).toUpperCase(),headers,body};
   }
   function mutateObj(obj,start,size){
@@ -57,19 +57,22 @@
   }
   function mutateUrl(url,start,size){try{const u=new URL(url,location.href);let touched=false;for(const k of[...u.searchParams.keys()]){if(/^(start|startindex|startitem|offset)$/i.test(k)){u.searchParams.set(k,String(start));touched=true}else if(/^(batchsize|pagesize|numberofitems|count|limit|maxresults|size)$/i.test(k)){u.searchParams.set(k,String(size));touched=true}}return touched?u.toString():url}catch{return url}}
   function totalFrom(json,depth=0){if(!json||typeof json!=='object'||depth>8)return 0;for(const[k,v]of Object.entries(json))if(/^(numberofitems|totalcontentcount|totalresultcount|numberofresults|totalitems|itemcount)$/i.test(k)&&Number(v)>0)return Number(v);for(const v of Object.values(json)){const n=totalFrom(v,depth+1);if(n)return n}return 0}
+  function cursorFrom(json,depth=0){if(!json||typeof json!=='object'||depth>8)return null;for(const[k,v]of Object.entries(json)){if(typeof v==='string'&&v.length>3&&/(pagination.?token|continuation.?token|next.?page.?token|next.?token|nextpagekey|paginationkey|cursor)$/i.test(k))return{key:k,value:v}}for(const v of Object.values(json)){const c=cursorFrom(v,depth+1);if(c)return c}return null}
+  function setCursorInBody(body,key,value){if(!body||!key||!value)return body;const t=body.trim();const put=o=>{let placed=false,container=null;(function walk(v,d){if(!v||typeof v!=='object'||d>8)return;for(const k of Object.keys(v)){if(k===key){v[k]=value;placed=true}else if(/^(start|startindex|startitem|offset|batchsize|pagesize|numberofitems|count|limit|maxresults|size)$/i.test(k)){container=v}else if(v[k]&&typeof v[k]==='object')walk(v[k],d+1)}})(o,0);if(!placed){(container||o)[key]=value}return o};if(t.startsWith('{')||t.startsWith('[')){try{return JSON.stringify(put(JSON.parse(body)))}catch{return body}}try{const q=new URLSearchParams(body);let placed=false;for(const[k,v]of[...q]){const z=(v||'').trim();if(k===key){q.set(k,value);placed=true}else if(z.startsWith('{')||z.startsWith('[')){try{q.set(k,JSON.stringify(put(JSON.parse(v))));placed=true}catch{}}}if(!placed)q.set(key,value);return q.toString()}catch{return body}}
   function domTotal(){for(const sel of['#CONTENT_COUNT','[id="CONTENT_COUNT"]','.content-count','#content-count']){const el=document.querySelector(sel);if(!el)continue;const nums=String(el.textContent||'').replace(/,/g,'').match(/\d+/g);if(nums?.length)return Math.max(...nums.map(Number))}return 0}
   async function scrape(){
     if(!template)throw new Error('Amazon ещё не загрузил список. Обнови Content Library → Docs и повтори.');
-    books.clear();let start=0,total=domTotal(),last='';const size=100;
+    books.clear();let start=0,total=domTotal(),last='',cursor=null;const size=100;
     for(let page=0;page<500;page++){
-      const url=template.method==='GET'?mutateUrl(template.url,start,size):template.url;
-      const body=template.method==='GET'?undefined:mutateBody(template.body,start,size);
+      let url=template.method==='GET'?mutateUrl(template.url,start,size):template.url;
+      let body=template.method==='GET'?undefined:mutateBody(template.body,start,size);
+      if(cursor){if(template.method==='GET'){try{const u=new URL(url,location.href);u.searchParams.set(cursor.key,cursor.value);url=u.toString()}catch{}}else body=setCursorInBody(body,cursor.key,cursor.value)}
       const headers={...template.headers};
       if(template.method!=='GET'&&!Object.keys(headers).some(k=>k.toLowerCase()==='content-type'))headers['Content-Type']=template.body.trim().startsWith('{')?'application/json':'application/x-www-form-urlencoded; charset=UTF-8';
       let text='';
       for(let attempt=0;attempt<3;attempt++){if(attempt)await wait(900*(attempt+1));try{const r=await nativeFetch(url,{method:template.method,headers,body,credentials:'include'});if(r.ok){text=await r.text();break}}catch{}}
       if(!text)throw new Error('Amazon не ответил при чтении страницы '+(page+1));
-      const {json,items}=ingest(text);if(!total)total=totalFrom(json);
+      const {json,items}=ingest(text);if(!total)total=totalFrom(json);cursor=cursorFrom(json);
       const first=items.length?idOf(items[0]):'';if(first&&first===last)break;last=first;
       post('progress',{collected:books.size,total,page:page+1});
       if(!items.length)break;start+=items.length;if(total&&books.size>=total)break;if(!total&&items.length<size)break;await wait(650);

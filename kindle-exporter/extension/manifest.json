@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SoloTome Kindle Exporter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Локально выгружает Send to Kindle / Personal Documents из Amazon Content Library для SoloTome.",
   "permissions": ["activeTab", "storage"],
   "action": {"default_popup": "popup.html", "default_title": "SoloTome Kindle Exporter"},
