@@ -1,15 +1,15 @@
 {
   "product": "SoloTome",
   "channel": "dev",
-  "latestVersion": "0.6.8",
+  "latestVersion": "0.6.9",
   "publishedAt": "2026-08-28",
   "minimumSchemaVersion": 4,
   "canSelfUpdate": false,
   "installUrl": "https://rommm13.github.io/solotome-static/",
   "notes": [
-    "PocketBook preview больше не перечитывает Google Sheets сотни раз: таблицы загружаются один раз",
-    "Добавлен автоматический keepalive PocketBook-токена до истечения двухчасовой сессии",
-    "Истёкшая PocketBook-сессия теперь требует переподключения вместо ложного статуса Подключён и долгого ожидания",
-    "Kindle и Google Sheets recovery archive сохранены без изменений"
+    "Исправлена валидация works: finished_at больше не проверяется как рейтинг 1–10",
+    "Валидации статуса, приоритета и рейтинга теперь привязаны к именам колонок",
+    "Повторный PocketBook sync свяжет 64 книги, записавшиеся до ошибки, и добавит остальные",
+    "PocketBook keepalive и быстрый preview сохранены"
   ]
 }
