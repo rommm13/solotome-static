@@ -1,15 +1,15 @@
 {
   "product": "SoloTome",
   "channel": "dev",
-  "latestVersion": "0.6.7",
+  "latestVersion": "0.6.8",
   "publishedAt": "2026-08-28",
   "minimumSchemaVersion": 4,
   "canSelfUpdate": false,
   "installUrl": "https://rommm13.github.io/solotome-static/",
   "notes": [
-    "Исправлена загрузка библиотеки PocketBook по официальной схеме limit=0 → limit=total",
-    "Убран ошибочный offset-пейджинг, который мог повторно загружать первую страницу",
-    "PocketBook-синхронизация больше не висит бесконечно: добавлен таймаут и понятная ошибка",
+    "PocketBook preview больше не перечитывает Google Sheets сотни раз: таблицы загружаются один раз",
+    "Добавлен автоматический keepalive PocketBook-токена до истечения двухчасовой сессии",
+    "Истёкшая PocketBook-сессия теперь требует переподключения вместо ложного статуса Подключён и долгого ожидания",
     "Kindle и Google Sheets recovery archive сохранены без изменений"
   ]
 }
