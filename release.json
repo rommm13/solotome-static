@@ -1,17 +1,15 @@
 {
   "product": "SoloTome",
   "channel": "dev",
-  "latestVersion": "0.6.3",
+  "latestVersion": "0.6.4",
   "publishedAt": "2026-08-28",
   "minimumSchemaVersion": 4,
   "canSelfUpdate": false,
   "installUrl": "https://rommm13.github.io/solotome-static/",
   "notes": [
-    "Компактный header без крупной эмблемы",
-    "Согласованная карбоновая книга встроена в фон пустой библиотеки без отдельной квадратной плашки",
-    "Иконка внутри приложения больше не зависит от Google Drive",
-    "Для iOS Home Screen опубликована отдельная GitHub Pages install-entry с top-level apple-touch-icon",
-    "Android manifest содержит отдельные 192/512 PNG-иконки",
-    "Центр обновления реально проверяет release manifest и не подменяет обновление перезагрузкой"
+    "Ручной импорт Send to Kindle из Amazon Content Library",
+    "Поддержка Raw JSON, JSON, CSV и текстового списка",
+    "Сохраняются Amazon ID, дата добавления, обложка и READ-статус, когда Amazon их отдаёт",
+    "Повторный импорт обновляет существующие книги без дублей"
   ]
 }
