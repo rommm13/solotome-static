@@ -1,1 +1,41 @@
-<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>SoloTome static assets</title><p>SoloTome static assets.</p>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050506">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="robots" content="noindex,nofollow">
+  <title>SoloTome</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/solotome-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/solotome-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icons/solotome-512.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <style>
+    :root{color-scheme:dark;background:#050506;color:#f5f5f3;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#050506}body{min-height:100svh;display:grid;place-items:center;padding:32px 24px calc(32px + env(safe-area-inset-bottom));background:radial-gradient(circle at 50% 22%,rgba(153,160,167,.08),transparent 36%),linear-gradient(145deg,#050506,#09090b 55%,#050506)}
+    main{width:min(100%,420px);text-align:center}.mark{width:150px;height:150px;object-fit:contain;display:block;margin:0 auto 24px;filter:saturate(.92)}
+    h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.03em;font-size:38px;line-height:1;margin:0 0 10px}p{margin:0 auto;color:#a9adb2;line-height:1.5;font-size:15px;max-width:330px}.hint{margin-top:24px;font-size:13px;color:#7f848a}
+    a{display:flex;align-items:center;justify-content:center;height:50px;margin:28px auto 0;border:1px solid rgba(199,205,211,.24);border-radius:15px;background:linear-gradient(180deg,rgba(39,41,44,.92),rgba(19,20,22,.96));color:#f5f5f3;text-decoration:none;font-weight:600;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);max-width:320px}
+  </style>
+</head>
+<body>
+  <main>
+    <img class="mark" src="./icons/solotome-512.png" alt="SoloTome">
+    <h1>SoloTome</h1>
+    <p>Личный каталог книг в твоём Google-аккаунте</p>
+    <a id="open" href="https://script.google.com/macros/s/AKfycbyTEy87_bwC0QjKdjtg9mLW0VOCknUUt8EbUWkpXB4i_DFcIPkx2qS2hU8m8z4b_Xw/exec">Открыть SoloTome</a>
+    <p class="hint">Для иконки SoloTome добавь именно эту страницу на экран «Домой». После запуска она откроет твоё приложение.</p>
+  </main>
+  <script>
+    (()=>{
+      const app='https://script.google.com/macros/s/AKfycbyTEy87_bwC0QjKdjtg9mLW0VOCknUUt8EbUWkpXB4i_DFcIPkx2qS2hU8m8z4b_Xw/exec';
+      const standalone=window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+      const home=new URLSearchParams(location.search).get('home')==='1';
+      if(standalone || home) location.replace(app);
+    })();
+  </script>
+</body>
+</html>
