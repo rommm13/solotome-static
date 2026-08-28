@@ -1,15 +1,15 @@
 {
   "product": "SoloTome",
   "channel": "dev",
-  "latestVersion": "0.6.4",
+  "latestVersion": "0.6.5",
   "publishedAt": "2026-08-28",
   "minimumSchemaVersion": 4,
   "canSelfUpdate": false,
   "installUrl": "https://rommm13.github.io/solotome-static/",
   "notes": [
-    "Ручной импорт Send to Kindle из Amazon Content Library",
-    "Поддержка Raw JSON, JSON, CSV и текстового списка",
-    "Сохраняются Amazon ID, дата добавления, обложка и READ-статус, когда Amazon их отдаёт",
-    "Повторный импорт обновляет существующие книги без дублей"
+    "Собственный SoloTome Kindle Exporter вместо стороннего расширения",
+    "Экспортёр локально собирает Send to Kindle / Personal Documents из Amazon Content Library",
+    "Amazon-пароль и cookies не передаются SoloTome",
+    "Kindle JSON импортируется с дедупликацией и сохраняется в Google Sheets recovery archive"
   ]
 }
