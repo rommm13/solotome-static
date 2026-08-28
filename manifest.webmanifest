@@ -1,0 +1,12 @@
+{
+  "name": "SoloTome",
+  "short_name": "SoloTome",
+  "description": "Личный каталог книг в твоём Google-аккаунте",
+  "display": "standalone",
+  "background_color": "#050506",
+  "theme_color": "#050506",
+  "icons": [
+    {"src":"./icons/solotome-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"./icons/solotome-512.png","sizes":"512x512","type":"image/png","purpose":"any"}
+  ]
+}
