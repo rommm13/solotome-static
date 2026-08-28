@@ -1,15 +1,15 @@
 {
   "product": "SoloTome",
   "channel": "dev",
-  "latestVersion": "0.6.6",
+  "latestVersion": "0.6.7",
   "publishedAt": "2026-08-28",
   "minimumSchemaVersion": 4,
   "canSelfUpdate": false,
   "installUrl": "https://rommm13.github.io/solotome-static/",
   "notes": [
-    "Исправлено подключение PocketBook Cloud для password-аккаунтов и разных вариантов auth-provider",
-    "Синхронизация PocketBook повторяет заголовки официального web-клиента",
-    "Ошибки PocketBook теперь показывают реальную причину и код",
+    "Исправлена загрузка библиотеки PocketBook по официальной схеме limit=0 → limit=total",
+    "Убран ошибочный offset-пейджинг, который мог повторно загружать первую страницу",
+    "PocketBook-синхронизация больше не висит бесконечно: добавлен таймаут и понятная ошибка",
     "Kindle и Google Sheets recovery archive сохранены без изменений"
   ]
 }
