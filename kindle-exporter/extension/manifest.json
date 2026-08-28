@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "SoloTome Kindle Exporter",
+  "version": "0.1.0",
+  "description": "Локально выгружает Send to Kindle / Personal Documents из Amazon Content Library для SoloTome.",
+  "permissions": ["activeTab", "storage"],
+  "action": {"default_popup": "popup.html", "default_title": "SoloTome Kindle Exporter"},
+  "content_scripts": [
+    {"matches": ["https://www.amazon.com/hz/mycd/*","https://www.amazon.co.uk/hz/mycd/*","https://www.amazon.de/hz/mycd/*","https://www.amazon.fr/hz/mycd/*","https://www.amazon.es/hz/mycd/*","https://www.amazon.it/hz/mycd/*","https://www.amazon.ca/hz/mycd/*","https://www.amazon.com.au/hz/mycd/*","https://www.amazon.co.jp/hz/mycd/*","https://www.amazon.in/hz/mycd/*","https://www.amazon.com.br/hz/mycd/*","https://www.amazon.com.mx/hz/mycd/*","https://www.amazon.nl/hz/mycd/*"],"js":["page-bridge.js"],"run_at":"document_start","world":"MAIN"},
+    {"matches": ["https://www.amazon.com/hz/mycd/*","https://www.amazon.co.uk/hz/mycd/*","https://www.amazon.de/hz/mycd/*","https://www.amazon.fr/hz/mycd/*","https://www.amazon.es/hz/mycd/*","https://www.amazon.it/hz/mycd/*","https://www.amazon.ca/hz/mycd/*","https://www.amazon.com.au/hz/mycd/*","https://www.amazon.co.jp/hz/mycd/*","https://www.amazon.in/hz/mycd/*","https://www.amazon.com.br/hz/mycd/*","https://www.amazon.com.mx/hz/mycd/*","https://www.amazon.nl/hz/mycd/*"],"js":["content-bridge.js"],"run_at":"document_start","world":"ISOLATED"}
+  ]
+}

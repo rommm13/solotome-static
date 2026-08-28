@@ -1,0 +1,14 @@
+'use strict';
+const $=id=>document.getElementById(id);let tab=null,items=[];
+const amazon=/^https:\/\/www\.amazon\.[a-z.]+\/hz\/mycd\//i;
+const clean=s=>String(s??'').replace(/&#(\d+);/g,(_,n)=>String.fromCharCode(Number(n))).replace(/\s+/g,' ').trim();
+const title=x=>clean(x.title||x.sortableTitle||x.contentTitle||'').replace(/[._-]+(?:[0-9a-f]{6,}|\d{5,})$/i,'').replace(/[._-]+/g,' ').trim();
+const author=x=>{const a=clean(x.author||x.creator||'');return /^unknown$/i.test(a)?'':a};
+function normalized(){return items.map(x=>({title:title(x),author:author(x)||null,acquiredDate:x.acquiredDate||x.dateAdded||null,asin:x.asin||x.ASIN||x.assetId||x.contentId||null,collectionList:Array.isArray(x.collectionList)?x.collectionList:[],contentType:x.contentType||x.category||null,readStatus:x.readStatus||x.read_state||x.readingStatus||x.status||null,imageUrl:x.imageUrl||x.coverUrl||null,raw:x})).filter(x=>x.title)}
+const msg=type=>chrome.tabs.sendMessage(tab.id,{type});const show=(id,on=true)=>$(id).hidden=!on;const fail=t=>{$('error').textContent=t;show('error',true)};
+async function refresh(){if(!tab||!amazon.test(tab.url||'')){show('off',true);show('ready',false);$('status').textContent='Нужна страница Amazon Content Library';return}try{const s=await msg('ST_STATUS');show('off',false);show('ready',true);$('status').textContent=s.ready?'Amazon подключён':'Жду загрузку списка Amazon…';if(s.progress){$('progress').textContent=`Собрано ${s.progress.collected}${s.progress.total?' из '+s.progress.total:''} · страница ${s.progress.page}`;$('scan').disabled=true}else $('scan').disabled=false;if(Array.isArray(s.result)){items=s.result;show('done',true);$('count').textContent=`Найдено документов: ${normalized().length}`}if(s.error)fail(s.error)}catch{show('off',false);show('ready',true);$('status').textContent='Перезагрузи страницу Amazon после установки расширения.'}}
+$('open').onclick=()=>chrome.tabs.create({url:'https://www.amazon.com/hz/mycd/digital-console/contentlist/pdocs/dateDsc/'});
+$('scan').onclick=async()=>{show('error',false);show('done',false);$('scan').disabled=true;await msg('ST_SCRAPE')};
+$('copy').onclick=async()=>{await navigator.clipboard.writeText(JSON.stringify(normalized(),null,2));$('copy').textContent='Скопировано';setTimeout(()=>$('copy').textContent='Скопировать JSON',1000)};
+$('download').onclick=()=>{const b=new Blob([JSON.stringify(normalized(),null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`solotome-kindle-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
+(async()=>{[tab]=await chrome.tabs.query({active:true,currentWindow:true});const old=await chrome.storage.local.get('kindleHarvest');if(old.kindleHarvest?.items?.length){items=old.kindleHarvest.items;show('done',true);$('count').textContent=`Последняя выгрузка: ${normalized().length}`}await refresh();setInterval(refresh,900)})();
