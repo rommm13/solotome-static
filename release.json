@@ -1,15 +1,15 @@
 {
   "product": "SoloTome",
   "channel": "dev",
-  "latestVersion": "0.6.5",
+  "latestVersion": "0.6.6",
   "publishedAt": "2026-08-28",
   "minimumSchemaVersion": 4,
   "canSelfUpdate": false,
   "installUrl": "https://rommm13.github.io/solotome-static/",
   "notes": [
-    "Собственный SoloTome Kindle Exporter вместо стороннего расширения",
-    "Экспортёр локально собирает Send to Kindle / Personal Documents из Amazon Content Library",
-    "Amazon-пароль и cookies не передаются SoloTome",
-    "Kindle JSON импортируется с дедупликацией и сохраняется в Google Sheets recovery archive"
+    "Исправлено подключение PocketBook Cloud для password-аккаунтов и разных вариантов auth-provider",
+    "Синхронизация PocketBook повторяет заголовки официального web-клиента",
+    "Ошибки PocketBook теперь показывают реальную причину и код",
+    "Kindle и Google Sheets recovery archive сохранены без изменений"
   ]
 }
